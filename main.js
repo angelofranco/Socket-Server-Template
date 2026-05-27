@@ -41,20 +41,20 @@ wss.on("connection", function (ws, req) {
     }
 
     try {
-      if (data.action == "properties") {
-        properties = data.properties
-        broadcast(ws, data, false);
+      var obj = JSON.parse(stringifiedData)
+      if (obj.action == "properties") {
+        properties = obj.properties
+        broadcast(ws, stringifiedData, false);
         return
       }
 
-      if (data.action == "getProperties") {
+      if (obj.action == "getProperties") {
         let payload = JSON.stringify({
           action: "properties",
           properties: properties
         })
 
-        console.log(payload)
-
+        
         broadcast(ws, payload, false);
         return
       }

@@ -21,8 +21,7 @@
 
             socket.onopen = () => {
                 console.log("WebSocket connection opened");
-                socket.send("Hello from the browser!");
-                sendAction("getProperties");
+                $("#status").text("Connected")
             };
 
             socket.onmessage = (event) => {
@@ -35,12 +34,12 @@
 
             socket.onclose = (event) => {
                 console.log("WebSocket connection closed");
-                alert("WebSocket connection closed");
+                $("#status").text("Not Connected")
             };
 
             socket.onerror = (error) => {
                 console.error("WebSocket error:", error);
-                alert("Error" + error);
+                $("#status").text("Error" + error)
             };
         }
 
@@ -67,7 +66,7 @@
                     action: "properties",
                     properties: props
                 }
-                socket.send(props);
+                socket.send(JSON.stringify(action));
             }
         }
 
@@ -76,14 +75,16 @@
                 let action = {
                     action: value
                 }
-                socket.send(action);
+                socket.send(JSON.stringify(action));
             }
         }
 
     </script>
 
     <body>
+        <p id="status">Not Connected</p><br/>
         <button onclick="connect()">Connect</button>
+        <button onclick="sendAction('getProperties')">Get Properties</button>
         <br/>
         <br/>
         <form id="form">
