@@ -1,0 +1,95 @@
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-4.0.0.slim.min.js"
+        integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+        .itemLabel {
+            padding-right: 10px;
+        }
+    </style>
+
+    <script>
+        var socket = null;
+
+        function connect() {
+            socket = new WebSocket("wss://socket-server-template-oqi7.onrender.com:443");
+
+            socket.onopen = () => {
+                console.log("WebSocket connection opened");
+                socket.send("Hello from the browser!");
+                sendAction("getProperties");
+            };
+
+            socket.onmessage = (event) => {
+                console.log("Message from the server:", event.data);
+                let event = JSON.parse(event.data)
+                if (event.action == "properties") {
+                    createForm(event.properties)
+                }
+            };
+
+            socket.onclose = (event) => {
+                console.log("WebSocket connection closed");
+                alert("WebSocket connection closed");
+            };
+
+            socket.onerror = (error) => {
+                console.error("WebSocket error:", error);
+                alert("Error" + error);
+            };
+        }
+
+        function createForm(properties) {
+            let form = $('#form');
+            form.empty();
+            Object.keys(properties).forEach(key => {
+                form.append('<label class="itemLabel">' + key + '</label>');
+                form.append('<input name="' + key + '" value="' + properties[key] + '"/>');
+                console.log(key, properties[key]);
+
+            });
+        }
+
+        function sendMessage() {
+            if (socket) {
+                let props = $('#form')
+                    .serializeArray()
+                    .reduce(function (json, { name, value }) {
+                        json[name] = value;
+                        return json;
+                    }, {});
+                let action = {
+                    action: "properties",
+                    properties: props
+                }
+                socket.send(props);
+            }
+        }
+
+        function sendAction(value) {
+            if (socket) {
+                let action = {
+                    action: value
+                }
+                socket.send(action);
+            }
+        }
+
+    </script>
+
+    <body>
+        <button onclick="connect()">Connect</button>
+        <br/>
+        <br/>
+        <form id="form">
+
+        </form>
+        <br/>
+        <button onclick="sendMessage()">Send</button>
+    </body>
+</html>

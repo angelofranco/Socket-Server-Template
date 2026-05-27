@@ -77,6 +77,7 @@ const broadcast = (ws, message, includeSelf) => {
   }, 50000);
 };
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
