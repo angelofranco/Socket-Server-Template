@@ -49,9 +49,11 @@ wss.on("connection", function (ws, req) {
 
       if (data.action == "getProperties") {
         let payload = JSON.stringify({
-          "action": "properties",
-          "properties": properties
+          action: "properties",
+          properties: properties
         })
+
+        console.log(payload)
 
         broadcast(ws, payload, false);
         return
