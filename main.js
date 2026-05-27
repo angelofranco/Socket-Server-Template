@@ -13,7 +13,8 @@ const WebSocket = require("ws");
 let keepAliveId;
 
 var properties = {
-  "currentBGIndex": "2"
+  "fgIndex": "0",
+  "bgIndex": "0"
 }
 
 const wss =
