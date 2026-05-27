@@ -48,7 +48,7 @@ wss.on("connection", function (ws, req) {
 
       if (obj.action == "properties") {
         properties = obj.properties
-        broadcast(ws, stringifiedData, false);
+        broadcast(ws, stringifiedData, true);
         return
       }
 
@@ -58,9 +58,9 @@ wss.on("connection", function (ws, req) {
           properties: properties
         })
 
-        console.log(stringifiedData)
+        console.log(payload)
         
-        broadcast(ws, payload, false);
+        broadcast(ws, payload, true);
         return
       }
     } catch (error) {
