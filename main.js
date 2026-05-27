@@ -12,7 +12,9 @@ const WebSocket = require("ws");
 
 let keepAliveId;
 
-var properties = {}
+var properties = {
+  "currentBGIndex": "2"
+}
 
 const wss =
   process.env.NODE_ENV === "production"
