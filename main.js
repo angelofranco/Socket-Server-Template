@@ -41,7 +41,7 @@ wss.on("connection", function (ws, req) {
     }
 
     try {
-      const obj = JSON.parse(stringifiedData);
+      const obj = JSON.parse(JSON.stringify(stringifiedData));
       if (obj.action == "properties") {
         properties = obj.properties
         broadcast(ws, stringifiedData, false);
