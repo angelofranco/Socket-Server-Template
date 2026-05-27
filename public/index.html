@@ -27,9 +27,9 @@
 
             socket.onmessage = (event) => {
                 console.log("Message from the server:", event.data);
-                let event = JSON.parse(event.data)
-                if (event.action == "properties") {
-                    createForm(event.properties)
+                let json = JSON.parse(event.data)
+                if (json.action == "properties") {
+                    createForm(json.properties)
                 }
             };
 

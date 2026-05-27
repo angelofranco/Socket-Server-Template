@@ -12,6 +12,8 @@ const WebSocket = require("ws");
 
 let keepAliveId;
 
+var properties = {}
+
 const wss =
   process.env.NODE_ENV === "production"
     ? new WebSocket.Server({ server })
@@ -35,6 +37,29 @@ wss.on("connection", function (ws, req) {
       console.log('keepAlive');
       return;
     }
+
+    try {
+      const obj = JSON.parse(stringifiedData);
+      if (obj.action == "properties") {
+        properties = obj.properties
+        broadcast(ws, stringifiedData, false);
+        return
+      }
+
+      if (obj.action == "getProperties") {
+        let payload = JSON.stringify({
+          "action": "properties",
+          "properties": properties
+        })
+        
+        broadcast(ws, payload, false);
+        return
+      }
+    } catch (error) {
+      console.error("Invalid JSON", error);
+    }
+
+
     broadcast(ws, stringifiedData, false);
   });
 
