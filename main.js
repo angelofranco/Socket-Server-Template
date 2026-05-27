@@ -41,6 +41,7 @@ wss.on("connection", function (ws, req) {
     }
 
     try {
+      console.log(stringifiedData)
       var obj = JSON.parse(stringifiedData)
       if (obj.action == "properties") {
         properties = obj.properties
