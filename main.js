@@ -51,8 +51,8 @@ wss.on("connection", function (ws, req) {
           "action": "properties",
           "properties": properties
         })
-        
-        broadcast(ws, payload, false);
+
+        broadcast(ws, payload.toString(), false);
         return
       }
     } catch (error) {
