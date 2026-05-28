@@ -1,17 +1,19 @@
 <html>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
-    <script
-        src="https://code.jquery.com/jquery-4.0.0.slim.min.js"
-        integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="
-        crossorigin="anonymous">
-    </script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="color-scheme" content="light dark">
 
-    <style>
-        .itemLabel {
-            padding-right: 10px;
-        }
-    </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-4.0.0.slim.min.js"
+            integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="
+            crossorigin="anonymous">
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    </head>    
 
     <script>
         var socket = null;
@@ -47,8 +49,8 @@
             let form = $('#form');
             form.empty();
             Object.keys(properties).forEach(key => {
-                form.append('<label class="itemLabel">' + key + '</label>');
-                form.append('<input name="' + key + '" value="' + properties[key] + '"/>');
+                form.append('<label for="' + key + '" class="itemLabel">' + key + '</label>');
+                form.append('<input type="text" id="' + key + '" name="' + key + '" value="' + properties[key] + '"/>');
                 console.log(key, properties[key]);
 
             });
@@ -81,16 +83,22 @@
 
     </script>
 
-    <body>
-        <p id="status">Not Connected</p><br/>
-        <button onclick="connect()">Connect</button>
-        <button onclick="sendAction('getProperties')">Get Properties</button>
-        <br/>
-        <br/>
-        <form id="form">
+    <body style="padding: 10px;">
+        <header>
+            <h2 id="status">Not Connected</h2>
+            <button onclick="connect()">Connect</button>
+            <button onclick="sendAction('getProperties')">Get Properties</button>
+        </header>
+        <main>
+            <section id="form"></section>
+                <form id="form">
 
-        </form>
-        <br/>
-        <button onclick="sendMessage()">Send</button>
+                </form>
+            </section>
+            
+            <footer>
+                <button onclick="sendMessage()">Send</button>
+            </footer>
+        </main>
     </body>
 </html>
