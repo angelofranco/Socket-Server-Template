@@ -13,6 +13,31 @@
         </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+
+        <style>
+            .propertyText {
+                width: 100% !important;
+                margin-right: 5px !important;
+            }
+            .propertyNumber {
+                width: 60px !important;
+                margin-right: 5px !important;
+            }
+            .numberDiv {
+                margin-top: 10px !important;
+                display: inline-flex !important;
+                height: 50px !important;
+                margin-right: 5px !important;
+            }
+            .numberButton {
+                width: 50px !important;
+                margin-right: 5px !important;
+            }
+            .propertyLabel {
+                width: 100px;
+                margin-right: 5px;
+            }
+        </style>
     </head>    
 
     <script>
@@ -28,10 +53,12 @@
 
             socket.onmessage = (event) => {
                 console.log("Message from the server:", event.data);
-                let json = JSON.parse(event.data)
-                if (json.action == "properties") {
-                    createForm(json.properties)
-                }
+                if (event.data != "ping") {
+                    let json = JSON.parse(event.data)
+                    if (json.action == "properties") {
+                        createForm(json.properties)
+                    }
+                }                
             };
 
             socket.onclose = (event) => {
@@ -49,11 +76,35 @@
             let form = $('#form');
             form.empty();
             Object.keys(properties).forEach(key => {
-                form.append('<label for="' + key + '" class="itemLabel">' + key + '</label>');
-                form.append('<input type="text" id="' + key + '" name="' + key + '" value="' + properties[key] + '"/>');
-                console.log(key, properties[key]);
+                let propValue = properties[key]
+                var formItems = '';
+                
+                if (Number.isFinite(Number(propValue))) {
+                    formItems += '<div class="numberDiv">'
+                    formItems += '<label class="propertyLabel" for="' + key + '" class="itemLabel">' + key + '</label>';
+                    formItems += '<input class="propertyNumber paddedRight" type="number" id="' + key + '" name="' + key + '" value="' + propValue + '"/>';
+                    formItems += '<button class="numberButton" onClick("increment(\''+ key + '\')")>+</button>';
+                    formItems += '<button class="numberButton" onClick("decrement(\''+ key + '\')")>-</button>';
+                    formItems += "</div>"
+                } else {
+                    formItems += '<label class="propertyLabel" for="' + key + '" class="itemLabel">' + key + '</label>';
+                    formItems += '<input class="propertyText" type="text" id="' + key + '" name="' + key + '" value="' + propValue + '"/>';
+                }
 
+                form.append(formItems);
             });
+        }
+
+        function increment(id) {
+            var propValue = $("#"+id).val();
+             $("#"+id).val(propValue+1);
+        }
+
+        function decrement(id) {
+            var propValue = $("#"+id).val();
+            if (propValue > 0) {
+                $("#"+id).val(propValue-1);
+            }
         }
 
         function sendMessage() {
@@ -90,12 +141,7 @@
             <button onclick="sendAction('getProperties')">Get Properties</button>
         </header>
         <main>
-            <section id="form"></section>
-                <form id="form">
-
-                </form>
-            </section>
-            
+            <form id="form"></form>
             <footer>
                 <button onclick="sendMessage()">Send</button>
             </footer>
