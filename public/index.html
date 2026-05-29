@@ -38,6 +38,12 @@
                 width: 100px;
                 margin-right: 5px;
             }
+            footer {
+                display: grid
+            }
+            .footerButton {
+                margin-bottom: 5px;
+            }
         </style>
     </head>    
 
@@ -147,7 +153,8 @@
         <main>
             <form id="form"></form>
             <footer>
-                <button onclick="sendValues()">Send</button>
+                <button class="footerButton" onclick="sendAction('explode')">Explode!</button>
+                <button class="footerButton" onclick="sendValues()">Send</button>
             </footer>
         </main>
     </body>
