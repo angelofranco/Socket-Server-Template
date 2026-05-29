@@ -131,6 +131,7 @@
         }
 
         function sendAction(value) {
+            console.log('Sending action: ' + value)
             if (socket) {
                 let action = {
                     action: value
@@ -139,18 +140,23 @@
             }
         }
 
+        $(window).on("load", function() {
+            connect()
+        });
+
     </script>
 
     <body style="padding: 10px;">
         <header>
-            <h2 id="status">Not Connected</h2>
-            <button onclick="connect()">Connect</button>            
+            <h2 id="status">Not Connected</h2>          
         </header>
         <main>
+            <h3>Parameters</h3>
             <form id="form"></form>
+            <h3>Actions</h3>
             <footer>
-                <button class="footerButton" onclick="sendAction('explode')">Explode!</button>
-                <button class="footerButton" onclick="sendAction('reset')">Reset</button>
+                <button class="footerButton" style="background-color:red;" onclick="sendAction('explode')">Explode!</button>
+                <button class="footerButton" onclick="if (confirm('Reset?')) sendAction('reset')">Reset</button>
             </footer>
         </main>
     </body>
