@@ -53,7 +53,7 @@
             socket.onopen = () => {
                 console.log("WebSocket connection opened");
                 $("#status").text("🟢 Connected")
-                //sendAction("getProperties")
+                sendAction("getProperties")
             };
 
             socket.onmessage = (event) => {
@@ -68,12 +68,13 @@
 
             socket.onclose = (event) => {
                 console.log("WebSocket connection closed");
-                $("#status").text("Not Connected")
+                $("#status").text("🔴 Not Connected")
+                connect()
             };
 
             socket.onerror = (error) => {
                 console.error("WebSocket error:", error);
-                $("#status").text("Error" + error)
+                $("#status").text("🔴 Error" + error)
             };
         }
 
