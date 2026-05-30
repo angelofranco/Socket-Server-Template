@@ -52,7 +52,7 @@
 
             socket.onopen = () => {
                 console.log("WebSocket connection opened");
-                $("#status").text("Connected")
+                $("#status").text("🟢 Connected")
                 //sendAction("getProperties")
             };
 
@@ -148,7 +148,7 @@
 
     <body style="padding: 10px;">
         <header>
-            <h2 id="status">Not Connected</h2>          
+            <h2 id="status">🔴 Not Connected</h2>          
         </header>
         <main>
             <h3>Parameters</h3>
