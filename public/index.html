@@ -53,14 +53,14 @@
             socket.onopen = () => {
                 console.log("WebSocket connection opened");
                 $("#status").text("Connected")
-                sendAction("getProperties")
+                //sendAction("getProperties")
             };
 
             socket.onmessage = (event) => {
                 console.log("Message from the server:", event.data);
                 if (event.data != "ping") {
                     let json = JSON.parse(event.data)
-                    if (json.action == "properties") {
+                    if (json.action == "setPropertiesFromTD") {
                         createForm(json.properties)
                     }
                 }                
@@ -123,7 +123,7 @@
                         return json;
                     }, {});
                 let action = {
-                    action: "properties",
+                    action: "setPropertiesFromFront",
                     properties: props
                 }
                 socket.send(JSON.stringify(action));

@@ -41,7 +41,7 @@ wss.on("connection", function (ws, req) {
       return;
     }
 
-    try {
+    /*try {
       
       var obj = JSON.parse(stringifiedData)
 
@@ -66,8 +66,7 @@ wss.on("connection", function (ws, req) {
       }
     } catch (error) {
       console.error("Invalid JSON", error);
-    }
-
+    }*/
 
     broadcast(ws, stringifiedData, false);
   });
